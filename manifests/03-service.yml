@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: apache
+  labels:
+    app: apache
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: apache
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+      - image: httpd:2.4.33-alpine
+        name: apache
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache
+spec:
+  ports:
+    - port: 80
+  type: LoadBalancer
+  selector:
+    app: apache
